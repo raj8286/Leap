@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { webrtcConfig } from "../../../webrtcConfig.js";
+import { useWebrtcStore } from "../../../store/useWebrtcStore.js";
 import { createDummyScreenStream } from "../utils/createDummyScreenStream.js";
 
 const ONE_TO_ONE_MEDIA_CONSTRAINTS = {
@@ -26,6 +26,9 @@ export function useOneToOneCall({
   initiating,
   onCallEnd,
 }) {
+
+  const { iceServers } = useWebrtcStore();
+
   const [stream, setStream] = useState(null);
   const [remoteStream, setRemoteStream] = useState(null);
   const [remoteScreenStream, setRemoteScreenStream] = useState(null);
@@ -152,7 +155,7 @@ export function useOneToOneCall({
 
   const createPeerConnection = useCallback(
     (localStream) => {
-      const pc = new RTCPeerConnection(webrtcConfig);
+      const pc = new RTCPeerConnection(iceServers);
       localStream.getTracks().forEach((t) => pc.addTrack(t, localStream));
 
       const dummyTrack = getDummyTrack();

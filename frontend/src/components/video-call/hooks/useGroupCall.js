@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { webrtcConfig } from "../../../webrtcConfig.js";
+import { useWebrtcStore } from "../../../store/useWebrtcStore.js";
 import { createDummyScreenStream } from "../utils/createDummyScreenStream.js";
 
 const GROUP_AUDIO_CONSTRAINTS = {
@@ -92,6 +92,8 @@ export function useGroupCall({ enabled, socket, authUser, onCallEnd }) {
   const dummyTrackRef = useRef(null);
   const groupStreamRef = useRef(null);
 
+  const { iceServers } = useWebrtcStore();
+
   useEffect(() => {
     screenSharingRef.current = screenSharing;
   }, [screenSharing]);
@@ -113,7 +115,7 @@ export function useGroupCall({ enabled, socket, authUser, onCallEnd }) {
       const s = groupStreamRef.current;
       if (!s) return null;
 
-      const pc = new RTCPeerConnection(webrtcConfig);
+      const pc = new RTCPeerConnection(iceServers);
       s.getTracks().forEach((t) => pc.addTrack(t, s));
 
       const dummyTrack = getDummyTrack();
