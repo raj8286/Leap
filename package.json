@@ -1,0 +1,10 @@
+{
+    "name": "leap-root",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Root package to orchestrate Render deployment",
+    "scripts": {
+      "build": "npm install --prefix frontend --include=dev && npm run build --prefix frontend && npm install --prefix backend",
+      "start": "npm start --prefix backend"
+    }
+  }
