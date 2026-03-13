@@ -1,0 +1,1 @@
+export const DEFAULT_PROFILE_ICON = "/assets/DEFAULT_PROFILE_ICON.svg";
